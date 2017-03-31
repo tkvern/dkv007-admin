@@ -14,8 +14,7 @@ class AddTaskOrdersTable extends Migration
     public function up()
     {
         Schema::create('task_orders', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('sn')->unique();
+			$table->string('sn', 16);
             $table->integer('user_id');
             $table->string('user_name');
             $table->decimal('total_price', 10, 2);
@@ -25,6 +24,7 @@ class AddTaskOrdersTable extends Migration
             $table->string('pay_state');
             $table->string('deliver_type');
             $table->timestamps();
+            $table->primary('sn');
         });
     }
 
