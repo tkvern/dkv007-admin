@@ -16,3 +16,7 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+Artisan::command('admin:init', function () {
+    $this->call('db:seed', ['--class' => App\Models\AdminTablesSeeder::class]);
+})->describe('init admin database');
