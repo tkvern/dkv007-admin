@@ -21,10 +21,10 @@ class AddTableUserTasks extends Migration
             $table->string('name')->comment('任务名称');
             $table->string('local_dir')->comment('任务对应的本地目录, 断点续传时使用');
             $table->string('handle_params')->comment('任务处理参数');
-            $table->string('storage_address')->nullable()->comment('云端存储位置');
+            $table->string('storage_address')->default('')->comment('云端存储位置');
             $table->string('deliver_type')->comment('上传方式');
             $table->string('download_link')->default('')->comment('下载链接');
-            $table->string('handler_state')->comment('任务处理状态');
+            $table->string('handle_state')->comment('任务处理状态');
             $table->string('order_sn')->comment('订单号');
             $table->string('pay_state')->comment('支付状态');
             $table->decimal('price', 10, 2)->default(0.0)->comment('任务处理计算价格');
