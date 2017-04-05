@@ -16,6 +16,6 @@ class Task extends Model
 
     public function order()
     {
-        return $this->belongsTo(TaskOrder::class, 'order_sn', 'sn');
+        return $this->belongsTo(TaskOrder::class, 'order_no', 'out_trade_no');
     }
 }

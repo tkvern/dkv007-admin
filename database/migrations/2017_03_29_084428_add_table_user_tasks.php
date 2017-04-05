@@ -25,10 +25,10 @@ class AddTableUserTasks extends Migration
             $table->string('deliver_type')->comment('上传方式');
             $table->string('download_link')->default('')->comment('下载链接');
             $table->string('handle_state')->comment('任务处理状态');
-            $table->string('order_sn')->comment('订单号');
+            $table->string('order_no')->comment('订单号');
             $table->string('pay_state')->comment('支付状态');
-            $table->decimal('price', 10, 2)->default(0.0)->comment('任务处理计算价格');
-            $table->decimal('real_price', 10, 2)->default(0.0)->comment('任务处理实际价格');
+            $table->integer('price')->default(0)->comment('任务处理计算价格, 单位分');
+            $table->integer('real_price')->default(0)->comment('任务处理实际价格, 单位分');
             $table->timestamps();
         });
     }

@@ -14,17 +14,18 @@ class AddTaskOrdersTable extends Migration
     public function up()
     {
         Schema::create('task_orders', function (Blueprint $table) {
-			$table->string('sn', 16);
+			$table->string('out_trade_no', 16);
+            $table->string('trade_name');
             $table->integer('user_id');
             $table->string('user_name');
-            $table->decimal('total_price', 10, 2);
-            $table->decimal('real_price', 10, 2);
+            $table->integer('total_price');
+            $table->integer('real_price');
             $table->string('state');
             $table->string('pay_type');
             $table->string('pay_state');
             $table->string('deliver_type');
             $table->timestamps();
-            $table->primary('sn');
+            $table->primary('out_trade_no');
         });
     }
 
