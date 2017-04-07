@@ -85,10 +85,10 @@ class UsersController extends Controller
             });
             $grid->column('name', '公司名/姓名');
             $grid->column('phone_number', '联系电话');
-            $grid->column('activated_at', '激活时间');
             $grid->column('login_ip', '最近登录IP');
             $grid->column('login_at', '最近登录时间');
-            $grid->column('created_at', '创建时间');
+            $grid->column('created_at', '注册时间');
+            $grid->column('activated_at', '激活时间');
             $grid->column('task_count', '任务数');
 
             // actions
@@ -121,10 +121,19 @@ class UsersController extends Controller
             $form->text('phone_number', '联系电话')->rules('required');
             $form->text('country', '国家')->rules('required');
             $form->text('region', '地区')->rules('required');
+            $form->password('password', '密码')->value('')->rules('min:6|confirmed');
+            $form->password('password_confirmation', '重复密码')->value('');
+            $form->ignore(['password_confirmation']);
 //            $form->display('login_ip', '最近登录IP');
 //            $form->display('login_at', '最近登录时间');
 //            $form->display('created_at', '创建时间');
 //            $form->display('updated_at', '更新时间');
+
+            $form->saving(function(Form $form) {
+                if ($form->password != "") {
+                    $form->password = bcrypt($form->password);
+                }
+            });
         });
     }
 

@@ -18,4 +18,24 @@ class Task extends Model
     {
         return $this->belongsTo(TaskOrder::class, 'order_no', 'out_trade_no');
     }
+
+    public function statusLabel() {
+        return self::stateLabel($this->handle_state);
+    }
+
+    /**
+     * @param $state
+     * @return string
+     */
+    public static function stateLabel($state) {
+        switch ($state) {
+            case 'created':
+            case 'resource_waiting':
+                return '等待素材上传';
+            case 'resource_uploaded':
+                return '素材上传完成';
+            default:
+                return $state;
+        }
+    }
 }
