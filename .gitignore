@@ -12,3 +12,4 @@ log
 *.log
 *.swp
 *.swo
+.vscode/
