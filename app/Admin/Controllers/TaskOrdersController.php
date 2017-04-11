@@ -84,7 +84,10 @@ class TaskOrdersController extends Controller
                 [4, 'xet@yahoo.com', 'William Koss', 'Becker-Raynor', '1988-09-07 23:57:45', 'open'],
                 [5, 'ipsa.aut@gmail.com', 'Ms. Antonietta Kozey Jr.', 'Braun Ltd', '2013-10-16 10:00:01', 'open'],
             ];
-            $content->row(new Table([], $tasks->pluck('name', 'deliver_type', 'handle_state', 'handle_params')->all()));
+            $rows = $tasks->map(function($item) {
+                return [$item->name, $item->deliver_type, $item->handle_state, $item->handle_params];
+            })->all();
+            $content->row(new Table(['任务名', '递交方式', '处理状态', '处理参数'], $rows));
         });
     }
 
