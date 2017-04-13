@@ -72,7 +72,7 @@ class TasksController extends Controller
     protected function grid()
     {
         return Admin::grid(Task::class, function (Grid $grid) {
-
+            $grid->model()->orderBy('updated_at', 'desc');
             $grid->id('ID');
             $grid->column('name', '名称');
             $grid->column('deliver_type', '素材递交方式')->display(function($deliver_type) {
@@ -85,7 +85,26 @@ class TasksController extends Controller
                 }
             });
             $grid->column('handle_params', '处理要求')->display(function($params) {
-                return $params;
+                $keys = [
+                    'SizeList' => '尺寸',
+                    'DimensionList' => '维数',
+                    'FormatList' => '格式',
+                    'PlatformList' => '平台',
+                    'ExtraList' => '附加',
+                ];
+                $params = json_decode($params, true);
+                $htmls = [];
+                array_push($htmls, '<ul>');
+                foreach($keys as $key => $label) {
+                    $value = array_get($params, $key);
+                    if (is_array($value)) {
+                        array_push($htmls, "<li>$label: ".implode(", ", Task::ReadableParamList($value)).'</li>');
+                    } else {
+                        array_push($htmls, "<li>$label: ".$value.'</li>');
+                    }
+                }
+                array_push($htmls, '</ul>');
+                return implode("", $htmls);
             });
             $grid->column('handle_state', '处理状态')->display(function($handle_state) {
                 return Task::stateLabel($handle_state);

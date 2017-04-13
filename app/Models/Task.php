@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Task\HandleParameter;
 
 class Task extends Model
 {
+    use HandleParameter;
+
     protected $cast = [
         'handle_params' => 'array',
     ];
