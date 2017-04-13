@@ -11,6 +11,9 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 
+use App\Admin\Extensions\ChangeState;
+use Illuminate\Http\Request;
+
 class TasksController extends Controller
 {
     use ModelForm;
@@ -64,6 +67,21 @@ class TasksController extends Controller
         });
     }
 
+    public function traceState(Request $request, Task $task) {
+        if (!array_key_exists($request->input('state'), Task::$StateMap)) {
+            return response()->json([
+                'status' => false,
+                'message' => '状态不正确'
+            ]);
+        }
+        $task->handle_state = $request->input('state');
+        $task->save();
+        return response()->json([
+            'status' => true,
+            'message' => '状态更新成功'
+        ]);
+    }
+
     /**
      * Make a grid builder.
      *
@@ -84,6 +102,7 @@ class TasksController extends Controller
                     return '';
                 }
             });
+            $grid->column('storage_address', '上传地址');
             $grid->column('handle_params', '处理要求')->display(function($params) {
                 $keys = [
                     'SizeList' => '尺寸',
@@ -116,7 +135,16 @@ class TasksController extends Controller
 
 
             $grid->disableCreation();
-            $grid->disableActions();
+            // $grid->disableActions();
+
+            Admin::script($this->traceScript($grid->resource()));
+
+            $grid->actions(function ($actions) {
+                $actions->disableDelete();
+                $actions->disableEdit();
+                $actions->append(new ChangeState($actions->getKey(), $actions->getResource()));
+            });
+
             $grid->tools(function ($tools) {
                 $tools->batch(function ($batch) {
                     $batch->disableDelete();
@@ -145,5 +173,31 @@ class TasksController extends Controller
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');
         });
+    }
+
+    protected function traceScript($resource) {
+        return <<<SCRIPT
+$('.dropdown.state-trace .dropdown-menu a').on('click', function() {
+    $.ajax({
+        method: 'post',
+        url: '{$resource}/' + $(this).data('id') + '/!action/trace_state',
+        data: {
+            _token:LA.token,
+            state: $(this).data('state')
+        },
+        success: function (data) {
+            $.pjax.reload('#pjax-container');
+
+            if (typeof data === 'object') {
+                if (data.status) {
+                    toastr.success(data.message);
+                } else {
+                    toastr.error(data.message);
+                }
+            }
+        }
+    });
+});
+SCRIPT;
     }
 }
