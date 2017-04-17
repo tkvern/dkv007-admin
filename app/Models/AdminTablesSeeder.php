@@ -93,6 +93,27 @@ class AdminTablesSeeder extends Seeder
                 'icon'      => 'fa-user',
                 'uri'       => 'users',
             ],
+            [
+                'parent_id' => 0,
+                'order'     => 9,
+                'title'     => 'VR作业',
+                'icon'      => 'fa-tasks',
+                'uri'       => '',
+            ],
+            [
+                'parent_id' => 9,
+                'order'     => 10,
+                'title'     => '订单列表',
+                'icon'      => 'fa-bars',
+                'uri'       => 'task_orders',
+            ],
+            [
+                'parent_id' => 9,
+                'order'     => 11,
+                'title'     => '作业列表',
+                'icon'      => 'fa-bars',
+                'uri'       => 'tasks',
+            ],
         ]);
 
         // add role to menu.
