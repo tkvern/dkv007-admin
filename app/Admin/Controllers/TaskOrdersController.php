@@ -119,7 +119,7 @@ class TaskOrdersController extends Controller
                 $actions->disableDelete();
                 $actions->disableEdit();
                 $key = $actions->getKey();
-                $actions->append('<a title="订单详情" href="'. "task_orders/$key" .'"><i class="fa fa-list-alt"></i></a>');
+                $actions->append('<a title="订单详情" href="'. "tasks?order_no=$key" .'"><i class="fa fa-list-alt"></i></a>');
             });
 
             $grid->disableCreation();
