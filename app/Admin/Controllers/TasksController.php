@@ -13,6 +13,7 @@ use Encore\Admin\Controllers\ModelForm;
 
 use App\Admin\Extensions\ChangeState;
 use Illuminate\Http\Request;
+use App\Admin\Exporters\ExcelExporter;
 
 class TasksController extends Controller
 {
@@ -156,6 +157,18 @@ class TasksController extends Controller
                 $filter->is('order_no', '订单号');
                 $filter->between('created_at', '创建时间')->datetime();
             });
+            $titleMaps = [
+                'id' => '任务ID',
+                'order_no' => '订单号',
+                'user_id' => '用户ID',
+                'user_name' => '用户名',
+                'name' => '作业名',
+                'handle_params' => '作业要求',
+                'deliver_type' => '素材递交方式',
+                'storage_address' => '云端地址',
+                'created_at' => '创建日期',
+            ];
+            $grid->exporter(new ExcelExporter($titleMaps));
         });
     }
 
