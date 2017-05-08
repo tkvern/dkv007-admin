@@ -102,8 +102,12 @@ class TaskOrdersController extends Controller
 
             $grid->column('out_trade_no', '订单号');
             $grid->column('user_name', '用户');
-            $grid->column('state', '状态');
-            $grid->column('pay_state', '支付状态');
+            $grid->column('state', '状态')->display(function($state) {
+                return TaskOrder::stateLabel($state);
+            });
+            $grid->column('pay_state', '支付状态')->display(function($pay_state) {
+                return TaskOrder::payStateLabel($pay_state);
+            });
             $grid->column('real_price', '订单价格')->display(function($real_price) {
                 return round($real_price/100, 2);
             });
@@ -115,7 +119,7 @@ class TaskOrdersController extends Controller
                 $actions->disableDelete();
                 $actions->disableEdit();
                 $key = $actions->getKey();
-                $actions->append('<a title="订单详情" href="'. "task_orders/$key" .'"><i class="fa fa-list-alt"></i></a>');
+                $actions->append('<a title="订单详情" href="'. "tasks?order_no=$key" .'"><i class="fa fa-list-alt"></i></a>');
             });
 
             $grid->disableCreation();
@@ -124,7 +128,7 @@ class TaskOrdersController extends Controller
             // filters
             $grid->filter(function($filter) {
                 $filter->disableIdFilter();
-                $filter->is('pay_state', '支付状态')->select(TaskOrder::$payStateMap);
+                $filter->is('pay_state', '支付状态')->select(TaskOrder::$PayStateMap);
                 $filter->between('created_at', '创建时间')->datetime();
             });
         });

@@ -5,7 +5,7 @@ return [
     /*
      * Laravel-admin name.
      */
-    'name'      => '量子视觉',
+    'name'      => '量子云管理后台',
 
     /*
      * Logo in admin panel header.

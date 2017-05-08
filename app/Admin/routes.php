@@ -14,4 +14,5 @@ Route::group([
     $router->resource('users', UsersController::class);
     $router->resource('task_orders', TaskOrdersController::class, ['only' => ['index', 'show']]);
     $router->resource('tasks', TasksController::class, ['only' => ['index', 'show']]);
+    $router->post('tasks/{task}/!action/trace_state', 'TasksController@traceState');
 });
