@@ -30,6 +30,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('activated_at')->nullable();
             $table->timestamps();
         });
+
+        DB::statement("ALTER TABLE users AUTO_INCREMENT = 1000;");
     }
 
     /**
