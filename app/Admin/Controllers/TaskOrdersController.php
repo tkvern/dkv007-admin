@@ -111,7 +111,7 @@ class TaskOrdersController extends Controller
             $grid->column('real_price', '订单价格')->display(function($real_price) {
                 return round($real_price/100, 2);
             });
-            $grid->created_at('创建日期');
+            $grid->created_at('创建日期')->sortable();
             $grid->updated_at('更新时间');
 
             // actions

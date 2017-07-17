@@ -131,7 +131,7 @@ class TasksController extends Controller
             });
             $grid->column('order_no', '订单号');
             $grid->column('user_name', '用户');
-            $grid->created_at('创建时间');
+            $grid->created_at('创建时间')->sortable();
             $grid->updated_at('更新时间');
 
 
